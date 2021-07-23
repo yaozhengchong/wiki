@@ -13,10 +13,15 @@ public class TestController {
      * @return
      */
     //http://127.0.0.1:8880/hello
-    @GetMapping
-    @PostMapping
-    @RequestMapping(value = "/hello",method = RequestMethod.GET)
+    //@GetMapping
+    //@PostMapping
+    @GetMapping("/hello")
     public String hello(){
-        return "hello World!";
+        return "Hello World!";
+    }
+
+    @PostMapping(value = "/hello/post")
+    public String hello(String name){
+        return "hello World! Post，" + name;
     }
 }

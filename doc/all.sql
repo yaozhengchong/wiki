@@ -1,3 +1,4 @@
+use wikidev;
 DROP TABLE IF EXISTS `test`;
 CREATE TABLE `test` (
     `id` BIGINT NOT NULL COMMENT 'id',

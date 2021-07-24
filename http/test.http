@@ -19,6 +19,8 @@ name=Test
 
 ###
 
+GET http://localhost:8880/test/list
+
 
 
 

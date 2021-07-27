@@ -1,4 +1,4 @@
-<template>
+<template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
   <a-layout>
     <a-layout-content
             :style="{ background: '#fff', padding: '24px', margin: 0, minHeight: '280px' }"
@@ -140,6 +140,8 @@
        **/
       const handleQuery = (params: any) => {
         loading.value = true;
+        // 如果不清空现有数据，则编辑保存重新加载数据后，再点编辑，列表显示未编辑之前的数据
+        ebooks.value = [];
         axios.get("/ebook/list", {
           params: {
             page: params.page,

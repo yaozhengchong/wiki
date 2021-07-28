@@ -1,4 +1,4 @@
-<template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
+<template>
   <a-layout>
     <a-layout-content
             :style="{ background: '#fff', padding: '24px', margin: 0, minHeight: '280px' }"
@@ -73,30 +73,33 @@
       <a-form-item label="顺序">
         <a-input v-model:value="doc.sort" />
       </a-form-item>
+      <a-form-item label="内容">
+        <div id="content"></div>
+      </a-form-item>
     </a-form>
   </a-modal>
 </template>
 
 <script lang="ts">
+  import { defineComponent, onMounted, ref, createVNode } from 'vue';
   import axios from 'axios';
+  import {message, Modal} from 'ant-design-vue';
   import {Tool} from "@/util/tool";
   import {useRoute} from "vue-router";
-  import {createVNode, defineComponent, onMounted, ref} from "vue";
-  import {Modal} from "ant-design-vue";
-  import {ExclamationCircleOutlined} from "@ant-design/icons-vue";
-  import deleteNames from "@vue/compiler-sfc/dist/compiler-sfc.esm-browser";
+  import ExclamationCircleOutlined from "@ant-design/icons-vue/ExclamationCircleOutlined";
+  import E from 'wangeditor'
 
   export default defineComponent({
     name: 'AdminDoc',
     setup() {
       const route = useRoute();
-      console.log("路由:",route);
-      console.log("route.path:",route.path);
-      console.log("route.query:",route.query);
-      console.log("route.params:",route.params);
-      console.log("route.fullpath:",route.fullPath);
-      console.log("route.name:",route.name);
-      console.log("route.meta:",route.meta);
+      console.log("路由：", route);
+      console.log("route.path：", route.path);
+      console.log("route.query：", route.query);
+      console.log("route.param：", route.params);
+      console.log("route.fullPath：", route.fullPath);
+      console.log("route.name：", route.name);
+      console.log("route.meta：", route.meta);
       const param = ref();
       param.value = {};
       const docs = ref();
@@ -141,8 +144,8 @@
        **/
       const handleQuery = () => {
         loading.value = true;
-        //如果不清空当前数据，则编辑保存重新加载数据后，再点编辑，则数据仍然保持
-        level1.value=[];
+        // 如果不清空现有数据，则编辑保存重新加载数据后，再点编辑，则列表显示的还是编辑前的数据
+        level1.value = [];
         axios.get("/doc/all").then((response) => {
           loading.value = false;
           const data = response.data;
@@ -166,6 +169,8 @@
       const doc = ref({});
       const modalVisible = ref(false);
       const modalLoading = ref(false);
+      const editor = new E('#content');
+
       const handleModalOk = () => {
         modalLoading.value = true;
         axios.post("/doc/save", doc.value).then((response) => {
@@ -213,8 +218,8 @@
         }
       };
 
-      const deleteIds: Array<String> = [];
-      const deleteNames: Array<String> = [];
+      const deleteIds: Array<string> = [];
+      const deleteNames: Array<string> = [];
       /**
        * 查找整根树枝
        */
@@ -226,8 +231,8 @@
           if (node.id === id) {
             // 如果当前节点就是目标节点
             console.log("delete", node);
-            // 将目标节点设置为disabled
-            node.disabled = true;
+            // 将目标ID放入结果集ids
+            // node.disabled = true;
             deleteIds.push(id);
             deleteNames.push(node.name);
 
@@ -254,11 +259,16 @@
       const edit = (record: any) => {
         modalVisible.value = true;
         doc.value = Tool.copy(record);
+
         // 不能选择当前节点及其所有子孙节点，作为父节点，会使树断开
         treeSelectData.value = Tool.copy(level1.value);
         setDisable(treeSelectData.value, record.id);
+
         // 为选择树添加一个"无"
         treeSelectData.value.unshift({id: 0, name: '无'});
+        setTimeout(function () {
+          editor.create();
+        }, 100);
       };
 
       /**
@@ -269,21 +279,28 @@
         doc.value = {
           ebookId: route.query.ebookId
         };
+
         treeSelectData.value = Tool.copy(level1.value);
+
         // 为选择树添加一个"无"
         treeSelectData.value.unshift({id: 0, name: '无'});
+        setTimeout(function () {
+          editor.create();
+        }, 100);
       };
 
       const handleDelete = (id: number) => {
-        //清空数组，否则多次删除时，数组会一直增加
+        // console.log(level1, level1.value, id)
+        // 清空数组，否则多次删除时，数组会一直增加
         deleteIds.length = 0;
         deleteNames.length = 0;
         getDeleteIds(level1.value, id);
         Modal.confirm({
-          title: '再次提醒',
+          title: '重要提醒',
           icon: createVNode(ExclamationCircleOutlined),
-          content: '将删除：【' + deleteNames.join(". ") + "】删除后不可恢复，确认删除？",
+          content: '将删除：【' + deleteNames.join("，") + "】删除后不可恢复，确认删除？",
           onOk() {
+            // console.log(ids)
             axios.delete("/doc/delete/" + deleteIds.join(",")).then((response) => {
               const data = response.data; // data = commonResp
               if (data.success) {
@@ -317,7 +334,7 @@
 
         handleDelete,
 
-        treeSelectData,
+        treeSelectData
       }
     }
   });

@@ -46,11 +46,11 @@ select * from ebook;
 # 分类
 drop table if exists `category`;
 create table `category` (
-                            `id` bigint not null comment 'id',
-                            `parent` bigint not null default 0 comment '父id',
-                            `name` varchar(50) not null comment '名称',
-                            `sort` int comment '顺序',
-                            primary key (`id`)
+        `id` bigint not null comment 'id',
+        `parent` bigint not null default 0 comment '父id',
+        `name` varchar(50) not null comment '名称',
+        `sort` int comment '顺序',
+        primary key (`id`)
 ) engine=innodb default charset=utf8mb4 comment='分类';
 
 insert into `category` (id, parent, name, sort) values (100, 000, '前端开发', 100);
@@ -68,3 +68,23 @@ insert into `category` (id, parent, name, sort) values (500, 000, '其它', 500)
 insert into `category` (id, parent, name, sort) values (501, 500, '服务器', 501);
 insert into `category` (id, parent, name, sort) values (502, 500, '开发工具', 502);
 insert into `category` (id, parent, name, sort) values (503, 500, '热门服务端语言', 503);
+
+-- 文档表
+DROP TABLE IF EXISTS `doc`;
+CREATE TABLE `doc` (
+       `id` BIGINT NOT NULL COMMENT 'id',
+       `ebook_id` BIGINT NOT NULL DEFAULT 0 COMMENT '电子书id',
+       `parent` BIGINT NOT NULL DEFAULT 0 COMMENT '父id',
+       `name` VARCHAR(50) NOT NULL COMMENT '名称',
+       `sort` INT COMMENT '顺序',
+       `view_count` INT DEFAULT 0 COMMENT '阅读数',
+       `vote_count` INT DEFAULT 0 COMMENT '点赞数',
+       PRIMARY KEY (`id`)
+) ENGINE=INNODB DEFAULT CHARSET=utf8mb4 COMMENT='文档';
+
+INSERT INTO `doc` (id, ebook_id, parent, NAME, sort, view_count, vote_count) VALUES (1, 1, 0, '文档1', 1, 0, 0);
+INSERT INTO `doc` (id, ebook_id, parent, NAME, sort, view_count, vote_count) VALUES (2, 1, 1, '文档1.1', 1, 0, 0);
+INSERT INTO `doc` (id, ebook_id, parent, NAME, sort, view_count, vote_count) VALUES (3, 1, 0, '文档2', 2, 0, 0);
+INSERT INTO `doc` (id, ebook_id, parent, NAME, sort, view_count, vote_count) VALUES (4, 1, 3, '文档2.1', 1, 0, 0);
+INSERT INTO `doc` (id, ebook_id, parent, NAME, sort, view_count, vote_count) VALUES (5, 1, 3, '文档2.2', 2, 0, 0);
+INSERT INTO `doc` (id, ebook_id, parent, NAME, sort, view_count, vote_count) VALUES (6, 1, 5, '文档2.2.1', 1, 0, 0);

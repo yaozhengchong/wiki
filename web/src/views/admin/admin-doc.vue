@@ -20,12 +20,14 @@
             </a-form>
           </p>
           <a-table
+                  v-if="level1.length > 0"
                   :columns="columns"
                   :row-key="record => record.id"
                   :data-source="level1"
                   :loading="loading"
                   :pagination="false"
                   size="small"
+                  :defaultExpandAllRows="true"
           >
             <template #name="{ text, record }">
               {{record.sort}} {{text}}
@@ -107,11 +109,10 @@
   import ExclamationCircleOutlined from "@ant-design/icons-vue/ExclamationCircleOutlined";
   import E from 'wangeditor'
 
-  const editor = require("@vue/cli-plugin-eslint/eslintOptions");
 
   export default defineComponent({
     name: 'AdminDoc',
-    setup() {
+    setup: function () {
       const route = useRoute();
       console.log("路由：", route);
       console.log("route.path：", route.path);
@@ -129,12 +130,12 @@
         {
           title: '名称',
           dataIndex: 'name',
-          slots: { customRender: 'name' }
+          slots: {customRender: 'name'}
         },
         {
           title: 'Action',
           key: 'action',
-          slots: { customRender: 'action' }
+          slots: {customRender: 'action'}
         }
       ];
 
@@ -150,6 +151,7 @@
        * }]
        */
       const level1 = ref(); // 一级文档树，children属性就是二级文档
+      level1.value = [];
 
       /**
        * 数据查询
@@ -178,19 +180,27 @@
       // 因为树选择组件的属性状态，会随当前编辑的节点而变化，所以单独声明一个响应式变量
       const treeSelectData = ref();
       treeSelectData.value = [];
-      const doc = ref({});
+      const doc = ref();
+      doc.value = {};
       const modalVisible = ref(false);
       const modalLoading = ref(false);
+      const editor = new E('#content');
+
       editor.config.zIndex = 0;
+
+      onMounted(() => {
+        handleQuery();
+        editor.create();
+      });
 
       const handleSave = () => {
         modalLoading.value = true;
+        doc.value.content = editor.txt.html();
         axios.post("/doc/save", doc.value).then((response) => {
           modalLoading.value = false;
           const data = response.data; // data = commonResp
           if (data.success) {
             modalVisible.value = false;
-
             // 重新加载列表
             handleQuery();
           } else {
@@ -318,11 +328,7 @@
         });
       };
 
-      onMounted(() => {
-        handleQuery();
-        const editor = new E('#content');
-        editor.create();
-      });
+
 
       return {
         param,

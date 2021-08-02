@@ -109,10 +109,9 @@
   import ExclamationCircleOutlined from "@ant-design/icons-vue/ExclamationCircleOutlined";
   import E from 'wangeditor'
 
-
   export default defineComponent({
     name: 'AdminDoc',
-    setup: function () {
+    setup() {
       const route = useRoute();
       console.log("路由：", route);
       console.log("route.path：", route.path);
@@ -130,12 +129,12 @@
         {
           title: '名称',
           dataIndex: 'name',
-          slots: {customRender: 'name'}
+          slots: { customRender: 'name' }
         },
         {
           title: 'Action',
           key: 'action',
-          slots: {customRender: 'action'}
+          slots: { customRender: 'action' }
         }
       ];
 
@@ -185,13 +184,7 @@
       const modalVisible = ref(false);
       const modalLoading = ref(false);
       const editor = new E('#content');
-
       editor.config.zIndex = 0;
-
-      onMounted(() => {
-        handleQuery();
-        editor.create();
-      });
 
       const handleSave = () => {
         modalLoading.value = true;
@@ -276,12 +269,26 @@
       };
 
       /**
+       * 内容查询
+       **/
+      const handleQueryContent = () => {
+        axios.get("/doc/find-content/" + doc.value.id).then((response) => {
+          const data = response.data;
+          if (data.success) {
+            editor.txt.html(data.content);
+          } else {
+            message.error(data.message);
+          }
+        });
+      };
+
+      /**
        * 编辑
        */
       const edit = (record: any) => {
         modalVisible.value = true;
         doc.value = Tool.copy(record);
-
+        handleQueryContent();
         // 不能选择当前节点及其所有子孙节点，作为父节点，会使树断开
         treeSelectData.value = Tool.copy(level1.value);
         setDisable(treeSelectData.value, record.id);
@@ -328,7 +335,10 @@
         });
       };
 
-
+      onMounted(() => {
+        handleQuery();
+        editor.create();
+      });
 
       return {
         param,

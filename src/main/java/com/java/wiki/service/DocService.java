@@ -100,6 +100,10 @@ public class DocService {
         }
     }
 
+    /**
+     * 根据id去删除
+     * @param id
+     */
     public void delete(Long id) {
         docMapper.deleteByPrimaryKey(id);
     }
@@ -109,6 +113,15 @@ public class DocService {
         DocExample.Criteria criteria = docExample.createCriteria();
         criteria.andIdIn(ids);
         docMapper.deleteByExample(docExample);
+    }
+
+    /**
+     * 根据id去查找
+     * @param id
+     */
+    public String findContent(Long id) {
+        Content content = contentMapper.selectByPrimaryKey(id);
+        return content.getContent();
     }
 
 }

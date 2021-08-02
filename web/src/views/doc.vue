@@ -7,7 +7,7 @@
                             v-if="level1.length > 0"
                             :tree-data="level1"
                             @select="onSelect"
-                            :replaceFields="{title: 'name',key: 'id',value: 'id'}"
+                            :replaceFields="{title: 'name', key: 'id', value: 'id'}"
                             :defaultExpandAll="true"
                     >
                     </a-tree>
@@ -50,7 +50,7 @@
              * 数据查询
              **/
             const handleQuery = () => {
-                axios.get("/doc/all" + route.query.ebookId).then((response) => {
+                axios.get("/doc/all/" + route.query.ebookId).then((response) => {
                     const data = response.data;
                     if (data.success) {
                         docs.value = data.content;

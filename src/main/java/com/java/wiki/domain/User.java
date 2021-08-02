@@ -1,30 +1,28 @@
 package com.java.wiki.domain;
 
 public class User {
-    private Integer id;
+    private Long id;
+
+    private String loginName;
 
     private String name;
 
-    private String gender;
-
-    private Integer age;
-
-    private String address;
-
-    private String qq;
-
-    private String email;
-
-    private String username;
-
     private String password;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getLoginName() {
+        return loginName;
+    }
+
+    public void setLoginName(String loginName) {
+        this.loginName = loginName;
     }
 
     public String getName() {
@@ -33,54 +31,6 @@ public class User {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getGender() {
-        return gender;
-    }
-
-    public void setGender(String gender) {
-        this.gender = gender;
-    }
-
-    public Integer getAge() {
-        return age;
-    }
-
-    public void setAge(Integer age) {
-        this.age = age;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getQq() {
-        return qq;
-    }
-
-    public void setQq(String qq) {
-        this.qq = qq;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
     }
 
     public String getPassword() {
@@ -98,13 +48,8 @@ public class User {
         sb.append(" [");
         sb.append("Hash = ").append(hashCode());
         sb.append(", id=").append(id);
+        sb.append(", loginName=").append(loginName);
         sb.append(", name=").append(name);
-        sb.append(", gender=").append(gender);
-        sb.append(", age=").append(age);
-        sb.append(", address=").append(address);
-        sb.append(", qq=").append(qq);
-        sb.append(", email=").append(email);
-        sb.append(", username=").append(username);
         sb.append(", password=").append(password);
         sb.append("]");
         return sb.toString();

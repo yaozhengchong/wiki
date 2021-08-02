@@ -2,15 +2,10 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.java.wiki.mapper.UserMapper">
   <resultMap id="BaseResultMap" type="com.java.wiki.domain.User">
-    <id column="id" jdbcType="INTEGER" property="id" />
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="login_name" jdbcType="VARCHAR" property="loginName" />
     <result column="name" jdbcType="VARCHAR" property="name" />
-    <result column="gender" jdbcType="VARCHAR" property="gender" />
-    <result column="age" jdbcType="INTEGER" property="age" />
-    <result column="address" jdbcType="VARCHAR" property="address" />
-    <result column="qq" jdbcType="VARCHAR" property="qq" />
-    <result column="email" jdbcType="VARCHAR" property="email" />
-    <result column="username" jdbcType="VARCHAR" property="username" />
-    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="password" jdbcType="CHAR" property="password" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -71,7 +66,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, `name`, gender, age, address, qq, email, username, `password`
+    id, login_name, `name`, `password`
   </sql>
   <select id="selectByExample" parameterType="com.java.wiki.domain.UserExample" resultMap="BaseResultMap">
     select
@@ -87,15 +82,15 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from user
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from user
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
   </delete>
   <delete id="deleteByExample" parameterType="com.java.wiki.domain.UserExample">
     delete from user
@@ -104,12 +99,10 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.java.wiki.domain.User">
-    insert into user (id, `name`, gender, 
-      age, address, qq, email, 
-      username, `password`)
-    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{gender,jdbcType=VARCHAR}, 
-      #{age,jdbcType=INTEGER}, #{address,jdbcType=VARCHAR}, #{qq,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
-      #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR})
+    insert into user (id, login_name, `name`, 
+      `password`)
+    values (#{id,jdbcType=BIGINT}, #{loginName,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{password,jdbcType=CHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.java.wiki.domain.User">
     insert into user
@@ -117,26 +110,11 @@
       <if test="id != null">
         id,
       </if>
+      <if test="loginName != null">
+        login_name,
+      </if>
       <if test="name != null">
         `name`,
-      </if>
-      <if test="gender != null">
-        gender,
-      </if>
-      <if test="age != null">
-        age,
-      </if>
-      <if test="address != null">
-        address,
-      </if>
-      <if test="qq != null">
-        qq,
-      </if>
-      <if test="email != null">
-        email,
-      </if>
-      <if test="username != null">
-        username,
       </if>
       <if test="password != null">
         `password`,
@@ -144,31 +122,16 @@
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
-        #{id,jdbcType=INTEGER},
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="loginName != null">
+        #{loginName,jdbcType=VARCHAR},
       </if>
       <if test="name != null">
         #{name,jdbcType=VARCHAR},
       </if>
-      <if test="gender != null">
-        #{gender,jdbcType=VARCHAR},
-      </if>
-      <if test="age != null">
-        #{age,jdbcType=INTEGER},
-      </if>
-      <if test="address != null">
-        #{address,jdbcType=VARCHAR},
-      </if>
-      <if test="qq != null">
-        #{qq,jdbcType=VARCHAR},
-      </if>
-      <if test="email != null">
-        #{email,jdbcType=VARCHAR},
-      </if>
-      <if test="username != null">
-        #{username,jdbcType=VARCHAR},
-      </if>
       <if test="password != null">
-        #{password,jdbcType=VARCHAR},
+        #{password,jdbcType=CHAR},
       </if>
     </trim>
   </insert>
@@ -182,31 +145,16 @@
     update user
     <set>
       <if test="record.id != null">
-        id = #{record.id,jdbcType=INTEGER},
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.loginName != null">
+        login_name = #{record.loginName,jdbcType=VARCHAR},
       </if>
       <if test="record.name != null">
         `name` = #{record.name,jdbcType=VARCHAR},
       </if>
-      <if test="record.gender != null">
-        gender = #{record.gender,jdbcType=VARCHAR},
-      </if>
-      <if test="record.age != null">
-        age = #{record.age,jdbcType=INTEGER},
-      </if>
-      <if test="record.address != null">
-        address = #{record.address,jdbcType=VARCHAR},
-      </if>
-      <if test="record.qq != null">
-        qq = #{record.qq,jdbcType=VARCHAR},
-      </if>
-      <if test="record.email != null">
-        email = #{record.email,jdbcType=VARCHAR},
-      </if>
-      <if test="record.username != null">
-        username = #{record.username,jdbcType=VARCHAR},
-      </if>
       <if test="record.password != null">
-        `password` = #{record.password,jdbcType=VARCHAR},
+        `password` = #{record.password,jdbcType=CHAR},
       </if>
     </set>
     <if test="_parameter != null">
@@ -215,15 +163,10 @@
   </update>
   <update id="updateByExample" parameterType="map">
     update user
-    set id = #{record.id,jdbcType=INTEGER},
+    set id = #{record.id,jdbcType=BIGINT},
+      login_name = #{record.loginName,jdbcType=VARCHAR},
       `name` = #{record.name,jdbcType=VARCHAR},
-      gender = #{record.gender,jdbcType=VARCHAR},
-      age = #{record.age,jdbcType=INTEGER},
-      address = #{record.address,jdbcType=VARCHAR},
-      qq = #{record.qq,jdbcType=VARCHAR},
-      email = #{record.email,jdbcType=VARCHAR},
-      username = #{record.username,jdbcType=VARCHAR},
-      `password` = #{record.password,jdbcType=VARCHAR}
+      `password` = #{record.password,jdbcType=CHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -231,43 +174,23 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.java.wiki.domain.User">
     update user
     <set>
+      <if test="loginName != null">
+        login_name = #{loginName,jdbcType=VARCHAR},
+      </if>
       <if test="name != null">
         `name` = #{name,jdbcType=VARCHAR},
       </if>
-      <if test="gender != null">
-        gender = #{gender,jdbcType=VARCHAR},
-      </if>
-      <if test="age != null">
-        age = #{age,jdbcType=INTEGER},
-      </if>
-      <if test="address != null">
-        address = #{address,jdbcType=VARCHAR},
-      </if>
-      <if test="qq != null">
-        qq = #{qq,jdbcType=VARCHAR},
-      </if>
-      <if test="email != null">
-        email = #{email,jdbcType=VARCHAR},
-      </if>
-      <if test="username != null">
-        username = #{username,jdbcType=VARCHAR},
-      </if>
       <if test="password != null">
-        `password` = #{password,jdbcType=VARCHAR},
+        `password` = #{password,jdbcType=CHAR},
       </if>
     </set>
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.java.wiki.domain.User">
     update user
-    set `name` = #{name,jdbcType=VARCHAR},
-      gender = #{gender,jdbcType=VARCHAR},
-      age = #{age,jdbcType=INTEGER},
-      address = #{address,jdbcType=VARCHAR},
-      qq = #{qq,jdbcType=VARCHAR},
-      email = #{email,jdbcType=VARCHAR},
-      username = #{username,jdbcType=VARCHAR},
-      `password` = #{password,jdbcType=VARCHAR}
-    where id = #{id,jdbcType=INTEGER}
+    set login_name = #{loginName,jdbcType=VARCHAR},
+      `name` = #{name,jdbcType=VARCHAR},
+      `password` = #{password,jdbcType=CHAR}
+    where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

@@ -4,10 +4,10 @@ use wikidev;
 # 添加test数据表
 DROP TABLE IF EXISTS `test`;
 CREATE TABLE `test` (
-        `id` BIGINT NOT NULL COMMENT 'id',
-        `name` VARCHAR(50) COMMENT '名称',
-        `password` VARCHAR(50) COMMENT '密码',
-        PRIMARY KEY (`id`)
+                        `id` BIGINT NOT NULL COMMENT 'id',
+                        `name` VARCHAR(50) COMMENT '名称',
+                        `password` VARCHAR(50) COMMENT '密码',
+                        PRIMARY KEY (`id`)
 ) ENGINE=INNODB DEFAULT CHARSET=utf8mb4 COMMENT='测试';
 INSERT INTO `test` (id, NAME, PASSWORD) VALUES (1, '测试', 'password');
 select * from test;
@@ -15,9 +15,9 @@ select * from test;
 # 添加demo数据表
 DROP TABLE IF EXISTS `demo`;
 CREATE TABLE `demo` (
-        `id` BIGINT NOT NULL COMMENT 'id',
-        `name` VARCHAR(50) COMMENT '名称',
-        PRIMARY KEY (`id`)
+                        `id` BIGINT NOT NULL COMMENT 'id',
+                        `name` VARCHAR(50) COMMENT '名称',
+                        PRIMARY KEY (`id`)
 ) ENGINE=INNODB DEFAULT CHARSET=utf8mb4 COMMENT='测试';
 INSERT INTO `demo` (id, NAME) VALUES (1, '测试');
 select * from demo;
@@ -25,16 +25,16 @@ select * from demo;
 # 添加电子书表
 DROP TABLE IF EXISTS `ebook`;
 CREATE TABLE `ebook` (
-         `id` BIGINT NOT NULL COMMENT 'id',
-         `name` VARCHAR(50) COMMENT '名称',
-         `category1_id` BIGINT COMMENT '分类1',
-         `category2_id` BIGINT COMMENT '分类2',
-         `description` VARCHAR(200) COMMENT '描述',
-         `cover` VARCHAR(200) COMMENT '封面',
-         `doc_count` INT NOT NULL DEFAULT 0 COMMENT '文档数',
-         `view_count` INT NOT NULL DEFAULT 0 COMMENT '阅读数',
-         `vote_count` INT NOT NULL DEFAULT 0 COMMENT '点赞数',
-         PRIMARY KEY (`id`)
+                         `id` BIGINT NOT NULL COMMENT 'id',
+                         `name` VARCHAR(50) COMMENT '名称',
+                         `category1_id` BIGINT COMMENT '分类1',
+                         `category2_id` BIGINT COMMENT '分类2',
+                         `description` VARCHAR(200) COMMENT '描述',
+                         `cover` VARCHAR(200) COMMENT '封面',
+                         `doc_count` INT NOT NULL DEFAULT 0 COMMENT '文档数',
+                         `view_count` INT NOT NULL DEFAULT 0 COMMENT '阅读数',
+                         `vote_count` INT NOT NULL DEFAULT 0 COMMENT '点赞数',
+                         PRIMARY KEY (`id`)
 ) ENGINE=INNODB DEFAULT CHARSET=utf8mb4 COMMENT='电子书';
 INSERT INTO `ebook` (id, NAME, description) VALUES (1, 'Spring Boot 入门教程', '零基础入门 Java 开发，企业级应用开发最佳首选框架');
 INSERT INTO `ebook` (id, NAME, description) VALUES (2, 'Vue 入门教程', '零基础入门 Vue 开发，企业级应用开发最佳首选框架');
@@ -46,11 +46,11 @@ select * from ebook;
 # 分类
 drop table if exists `category`;
 create table `category` (
-        `id` bigint not null comment 'id',
-        `parent` bigint not null default 0 comment '父id',
-        `name` varchar(50) not null comment '名称',
-        `sort` int comment '顺序',
-        primary key (`id`)
+                        `id` bigint not null comment 'id',
+                        `parent` bigint not null default 0 comment '父id',
+                        `name` varchar(50) not null comment '名称',
+                        `sort` int comment '顺序',
+                        primary key (`id`)
 ) engine=innodb default charset=utf8mb4 comment='分类';
 
 insert into `category` (id, parent, name, sort) values (100, 000, '前端开发', 100);
@@ -72,14 +72,14 @@ insert into `category` (id, parent, name, sort) values (503, 500, '热门服务�
 -- 文档表
 DROP TABLE IF EXISTS `doc`;
 CREATE TABLE `doc` (
-       `id` BIGINT NOT NULL COMMENT 'id',
-       `ebook_id` BIGINT NOT NULL DEFAULT 0 COMMENT '电子书id',
-       `parent` BIGINT NOT NULL DEFAULT 0 COMMENT '父id',
-       `name` VARCHAR(50) NOT NULL COMMENT '名称',
-       `sort` INT COMMENT '顺序',
-       `view_count` INT DEFAULT 0 COMMENT '阅读数',
-       `vote_count` INT DEFAULT 0 COMMENT '点赞数',
-       PRIMARY KEY (`id`)
+                       `id` BIGINT NOT NULL COMMENT 'id',
+                       `ebook_id` BIGINT NOT NULL DEFAULT 0 COMMENT '电子书id',
+                       `parent` BIGINT NOT NULL DEFAULT 0 COMMENT '父id',
+                       `name` VARCHAR(50) NOT NULL COMMENT '名称',
+                       `sort` INT COMMENT '顺序',
+                       `view_count` INT DEFAULT 0 COMMENT '阅读数',
+                       `vote_count` INT DEFAULT 0 COMMENT '点赞数',
+                       PRIMARY KEY (`id`)
 ) ENGINE=INNODB DEFAULT CHARSET=utf8mb4 COMMENT='文档';
 
 INSERT INTO `doc` (id, ebook_id, parent, NAME, sort, view_count, vote_count) VALUES (1, 1, 0, '文档1', 1, 0, 0);
@@ -104,7 +104,20 @@ INSERT INTO `doc` (id, ebook_id, parent, NAME, sort, view_count, vote_count) VAL
 -- 文档内容
 DROP TABLE IF EXISTS `content`;
 CREATE TABLE `content` (
-       `id` BIGINT NOT NULL COMMENT '文档id',
-       `content` MEDIUMTEXT NOT NULL COMMENT '内容',
-       PRIMARY KEY (`id`)
+                       `id` BIGINT NOT NULL COMMENT '文档id',
+                       `content` MEDIUMTEXT NOT NULL COMMENT '内容',
+                       PRIMARY KEY (`id`)
 ) ENGINE=INNODB DEFAULT CHARSET=utf8mb4 COMMENT='文档内容';
+
+-- 用户表
+drop table if exists `user`;
+create table `user` (
+                        `id` bigint not null comment 'ID',
+                        `login_name` varchar(50) not null comment '登陆名',
+                        `name` varchar(50) comment '昵称',
+                        `password` char(32) not null comment '密码',
+                        primary key (`id`),
+                        unique key `login_name_unique` (`login_name`)
+) engine=innodb default charset=utf8mb4 comment='用户';
+
+insert into `user` (id, `login_name`, `name`, `password`) values (1, 'test', '测试', 'test');

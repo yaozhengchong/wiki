@@ -1,4 +1,4 @@
-<template>
+<template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
   <a-layout>
     <a-layout-sider width="200" style="background: #fff">
       <a-menu

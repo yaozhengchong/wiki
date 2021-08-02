@@ -89,6 +89,18 @@ INSERT INTO `doc` (id, ebook_id, parent, NAME, sort, view_count, vote_count) VAL
 INSERT INTO `doc` (id, ebook_id, parent, NAME, sort, view_count, vote_count) VALUES (5, 1, 3, '文档2.2', 2, 0, 0);
 INSERT INTO `doc` (id, ebook_id, parent, NAME, sort, view_count, vote_count) VALUES (6, 1, 5, '文档2.2.1', 1, 0, 0);
 
+INSERT INTO `doc` (id, ebook_id, parent, NAME, sort, view_count, vote_count) VALUES (7, 2, 0, '文档1', 1, 0, 0);
+INSERT INTO `doc` (id, ebook_id, parent, NAME, sort, view_count, vote_count) VALUES (8, 2, 0, '文档2', 2, 0, 0);
+
+INSERT INTO `doc` (id, ebook_id, parent, NAME, sort, view_count, vote_count) VALUES (9, 3, 0, '文档1', 1, 0, 0);
+INSERT INTO `doc` (id, ebook_id, parent, NAME, sort, view_count, vote_count) VALUES (10, 3, 0, '文档2', 2, 0, 0);
+
+INSERT INTO `doc` (id, ebook_id, parent, NAME, sort, view_count, vote_count) VALUES (11, 4, 0, '文档1', 1, 0, 0);
+INSERT INTO `doc` (id, ebook_id, parent, NAME, sort, view_count, vote_count) VALUES (12, 4, 0, '文档2', 2, 0, 0);
+
+INSERT INTO `doc` (id, ebook_id, parent, NAME, sort, view_count, vote_count) VALUES (13, 5, 0, '文档1', 1, 0, 0);
+INSERT INTO `doc` (id, ebook_id, parent, NAME, sort, view_count, vote_count) VALUES (14, 5, 0, '文档2', 2, 0, 0);
+
 -- 文档内容
 DROP TABLE IF EXISTS `content`;
 CREATE TABLE `content` (

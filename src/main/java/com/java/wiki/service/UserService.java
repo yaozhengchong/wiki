@@ -8,6 +8,7 @@ import com.java.wiki.exception.BusinessException;
 import com.java.wiki.exception.BusinessExceptionCode;
 import com.java.wiki.mapper.UserMapper;
 import com.java.wiki.req.UserQueryReq;
+import com.java.wiki.req.UserResetPasswordReq;
 import com.java.wiki.req.UserSaveReq;
 import com.java.wiki.resp.UserQueryResp;
 import com.java.wiki.resp.PageResp;
@@ -104,5 +105,13 @@ public class UserService {
             return userList.get(0);
         }
 
+    }
+
+    /**
+     * 修改密码
+     */
+    public void resetPassword(UserResetPasswordReq req) {
+        User user = CopyUtil.copy(req, User.class);
+        userMapper.updateByPrimaryKeySelective(user);
     }
 }

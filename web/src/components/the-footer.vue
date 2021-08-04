@@ -1,6 +1,6 @@
 <template>
     <a-layout-footer style="text-align: center">
-        摹心电子书,欢迎{{user.name}}
+        摹心电子书<span v-show="user.id">，欢迎：{{user.name}}</span>
     </a-layout-footer>
 </template>
 
@@ -10,9 +10,10 @@
 
     export default defineComponent({
         name: 'the-footer',
-        setup(){
-            const user = computed(() => store.state.user)
-            return{
+        setup() {
+            const user = computed(() => store.state.user);
+
+            return {
                 user
             }
         }

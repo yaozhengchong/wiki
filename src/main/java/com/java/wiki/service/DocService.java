@@ -129,12 +129,19 @@ public class DocService {
     public String findContent(Long id) {
         Content content = contentMapper.selectByPrimaryKey(id);
         //文档阅读数加一
-        docMapperCust.increaseVieCount(id);
+        docMapperCust.increaseViewCount(id);
         if (ObjectUtils.isEmpty(content)) {
             return "";
         } else {
             return content.getContent();
         }
+    }
+
+    /**
+     * 点赞
+     */
+    public void vote(Long id){
+        docMapperCust.increaseViewCount(id);
     }
 
 }

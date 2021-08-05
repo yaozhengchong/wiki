@@ -21,6 +21,7 @@ import com.java.wiki.util.SnowFlake;
 import com.java.wiki.websocket.WebSocketServer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
@@ -164,7 +165,8 @@ public class DocService {
 
         //推送消息
         Doc docDB = docMapper.selectByPrimaryKey(id);
-        wsService.sendInfo("【" + docDB.getName() + "】被点赞!");
+        String logId = MDC.get("LOG_ID");
+        wsService.sendInfo("【" + docDB.getName() + "】被点赞!",logId);
     }
 
     public void updateEbookInfo(){

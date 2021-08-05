@@ -121,3 +121,17 @@ create table `user` (
 ) engine=innodb default charset=utf8mb4 comment='用户';
 
 insert into `user` (id, `login_name`, `name`, `password`) values (1, 'test', '测试', 'db0887127059810ba9f80186d795edb5');
+
+-- 电子书快照表
+DROP TABLE IF EXISTS `ebook_snapshot`;
+CREATE TABLE `ebook_snapshot` (
+                          `id` BIGINT AUTO_INCREMENT NOT NULL COMMENT 'id',
+                          `ebook_id` BIGINT NOT NULL DEFAULT 0 COMMENT '电子书id',
+                          `date` DATE NOT NULL COMMENT '快照日期',
+                          `view_count` INT NOT NULL DEFAULT 0 COMMENT '阅读数',
+                          `vote_count` INT NOT NULL DEFAULT 0 COMMENT '点赞数',
+                          `view_increase` INT NOT NULL DEFAULT 0 COMMENT '阅读增长',
+                          `vote_increase` INT NOT NULL DEFAULT 0 COMMENT '点赞增长',
+                          PRIMARY KEY (`id`),
+                          UNIQUE KEY `ebook_id_date_unique` (`ebook_id`, `date`)
+) ENGINE=INNODB DEFAULT CHARSET=utf8mb4 COMMENT='电子书快照表';

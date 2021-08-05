@@ -24,15 +24,23 @@
             :style="{ background: '#fff', padding: '24px', margin: 0, minHeight: '280px' }"
     >
       <div class="welcome" v-show="isShowWelcome">
-        <h1>欢迎使用甲蛙知识库</h1>
+        <h1>欢迎使用摹心电子书</h1>
       </div>
       <a-list v-show="!isShowWelcome" item-layout="vertical" size="large" :grid="{ gutter: 20, column: 3 }" :data-source="ebooks">
         <template #renderItem="{ item }">
           <a-list-item key="item.name">
             <template #actions>
-              <span v-for="{ type, text } in actions" :key="type">
-                <component v-bind:is="type" style="margin-right: 8px" />
-                {{ text }}
+              <span>
+                <component v-bind:is="'FileOutlined'" style="margin-right: 8px" />
+                {{ item.docCount }}
+              </span>
+              <span>
+                <component v-bind:is="'UserOutlined'" style="margin-right: 8px" />
+                {{ item.voteCount }}
+              </span>
+              <span>
+                <component v-bind:is="'LikeOutlined'" style="margin-right: 8px" />
+                {{ item.voteCount }}
               </span>
             </template>
             <a-list-item-meta :description="item.description">
@@ -140,11 +148,11 @@
           },
           pageSize: 3,
         },
-        actions: [
-          { type: 'StarOutlined', text: '156' },
-          { type: 'LikeOutlined', text: '156' },
-          { type: 'MessageOutlined', text: '2' },
-        ],
+        // actions: [
+        //   { type: 'StarOutlined', text: '156' },
+        //   { type: 'LikeOutlined', text: '156' },
+        //   { type: 'MessageOutlined', text: '2' },
+        // ],
 
         handleClick,
         level1,

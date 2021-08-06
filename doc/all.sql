@@ -1,5 +1,5 @@
 # 选择使用数据库
-use wikidev;
+# use wikidev;
 
 # 添加test数据表
 DROP TABLE IF EXISTS `test`;

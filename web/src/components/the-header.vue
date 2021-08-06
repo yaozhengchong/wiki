@@ -1,6 +1,6 @@
 <template>
     <a-layout-header class="header">
-        <div class="logo" />
+        <div class="logo">摹心电子书</div>
         <a-popconfirm
                 title="确认退出登录?"
                 ok-text="是"
@@ -131,6 +131,13 @@
 </script>
 
 <style>
+    .logo {
+        width: 120px;
+        height: 31px;
+        float: left;
+        color: white;
+        font-size: 18px;
+    }
     .login-menu {
         float: right;
         color: white;

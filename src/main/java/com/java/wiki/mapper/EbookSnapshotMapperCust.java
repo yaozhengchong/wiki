@@ -8,4 +8,6 @@ public interface EbookSnapshotMapperCust {
     public void getSnapshot();
 
     List<StatisticResp> getStatistic();
+
+    List<StatisticResp> get30Statistic();
 }
